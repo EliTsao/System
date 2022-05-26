@@ -32,11 +32,17 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.承压设备ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.基本参数数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.载入ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.生成报告书ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.常规缺陷评定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.常规缺陷评定ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.简化评定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.常规评定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.表征类型ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.材料数据查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.生成报告书ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,19 +51,22 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.承压设备ToolStripMenuItem,
             this.常规缺陷评定ToolStripMenuItem,
+            this.表征类型ToolStripMenuItem,
+            this.材料数据查询ToolStripMenuItem,
             this.帮助ToolStripMenuItem,
-            this.生成报告书ToolStripMenuItem,
             this.退出ToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1245, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(957, 25);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // 承压设备ToolStripMenuItem
             // 
             this.承压设备ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.基本参数数据ToolStripMenuItem});
+            this.基本参数数据ToolStripMenuItem,
+            this.载入ToolStripMenuItem,
+            this.生成报告书ToolStripMenuItem1});
             this.承压设备ToolStripMenuItem.Name = "承压设备ToolStripMenuItem";
             this.承压设备ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.承压设备ToolStripMenuItem.Text = "文件";
@@ -65,15 +74,66 @@
             // 基本参数数据ToolStripMenuItem
             // 
             this.基本参数数据ToolStripMenuItem.Name = "基本参数数据ToolStripMenuItem";
-            this.基本参数数据ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.基本参数数据ToolStripMenuItem.Text = "基本参数数据";
+            this.基本参数数据ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.基本参数数据ToolStripMenuItem.Text = "保存";
+            // 
+            // 载入ToolStripMenuItem
+            // 
+            this.载入ToolStripMenuItem.Name = "载入ToolStripMenuItem";
+            this.载入ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.载入ToolStripMenuItem.Text = "载入";
+            // 
+            // 生成报告书ToolStripMenuItem1
+            // 
+            this.生成报告书ToolStripMenuItem1.Name = "生成报告书ToolStripMenuItem1";
+            this.生成报告书ToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
+            this.生成报告书ToolStripMenuItem1.Text = "生成报告书";
             // 
             // 常规缺陷评定ToolStripMenuItem
             // 
+            this.常规缺陷评定ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.常规缺陷评定ToolStripMenuItem1});
             this.常规缺陷评定ToolStripMenuItem.Name = "常规缺陷评定ToolStripMenuItem";
-            this.常规缺陷评定ToolStripMenuItem.Size = new System.Drawing.Size(92, 21);
-            this.常规缺陷评定ToolStripMenuItem.Text = "常规缺陷评定";
+            this.常规缺陷评定ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.常规缺陷评定ToolStripMenuItem.Text = "缺陷评定";
             this.常规缺陷评定ToolStripMenuItem.Click += new System.EventHandler(this.常规缺陷评定ToolStripMenuItem_Click);
+            // 
+            // 常规缺陷评定ToolStripMenuItem1
+            // 
+            this.常规缺陷评定ToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.简化评定ToolStripMenuItem,
+            this.常规评定ToolStripMenuItem});
+            this.常规缺陷评定ToolStripMenuItem1.Name = "常规缺陷评定ToolStripMenuItem1";
+            this.常规缺陷评定ToolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.常规缺陷评定ToolStripMenuItem1.Text = "平面缺陷";
+            // 
+            // 简化评定ToolStripMenuItem
+            // 
+            this.简化评定ToolStripMenuItem.Name = "简化评定ToolStripMenuItem";
+            this.简化评定ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.简化评定ToolStripMenuItem.Text = "简化评定";
+            this.简化评定ToolStripMenuItem.Click += new System.EventHandler(this.简化评定ToolStripMenuItem_Click);
+            // 
+            // 常规评定ToolStripMenuItem
+            // 
+            this.常规评定ToolStripMenuItem.Name = "常规评定ToolStripMenuItem";
+            this.常规评定ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.常规评定ToolStripMenuItem.Text = "常规评定";
+            this.常规评定ToolStripMenuItem.Click += new System.EventHandler(this.常规评定ToolStripMenuItem_Click);
+            // 
+            // 表征类型ToolStripMenuItem
+            // 
+            this.表征类型ToolStripMenuItem.Name = "表征类型ToolStripMenuItem";
+            this.表征类型ToolStripMenuItem.Size = new System.Drawing.Size(92, 21);
+            this.表征类型ToolStripMenuItem.Text = "表征类型确定";
+            this.表征类型ToolStripMenuItem.Click += new System.EventHandler(this.表征类型ToolStripMenuItem_Click);
+            // 
+            // 材料数据查询ToolStripMenuItem
+            // 
+            this.材料数据查询ToolStripMenuItem.Name = "材料数据查询ToolStripMenuItem";
+            this.材料数据查询ToolStripMenuItem.Size = new System.Drawing.Size(92, 21);
+            this.材料数据查询ToolStripMenuItem.Text = "材料数据查询";
+            this.材料数据查询ToolStripMenuItem.Click += new System.EventHandler(this.材料数据查询ToolStripMenuItem_Click);
             // 
             // 帮助ToolStripMenuItem
             // 
@@ -93,22 +153,17 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // 生成报告书ToolStripMenuItem
-            // 
-            this.生成报告书ToolStripMenuItem.Name = "生成报告书ToolStripMenuItem";
-            this.生成报告书ToolStripMenuItem.Size = new System.Drawing.Size(80, 21);
-            this.生成报告书ToolStripMenuItem.Text = "生成报告书";
-            this.生成报告书ToolStripMenuItem.Click += new System.EventHandler(this.生成报告书ToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1245, 732);
+            this.ClientSize = new System.Drawing.Size(957, 627);
             this.Controls.Add(this.menuStrip1);
+            this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "承压设备缺陷评定";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -125,7 +180,13 @@
         private Windows.Forms.ToolStripMenuItem 常规缺陷评定ToolStripMenuItem;
         private Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem1;
-        private Windows.Forms.ToolStripMenuItem 生成报告书ToolStripMenuItem;
+        private Windows.Forms.ToolStripMenuItem 表征类型ToolStripMenuItem;
+        private Windows.Forms.ToolStripMenuItem 材料数据查询ToolStripMenuItem;
+        private Windows.Forms.ToolStripMenuItem 载入ToolStripMenuItem;
+        private Windows.Forms.ToolStripMenuItem 生成报告书ToolStripMenuItem1;
+        private Windows.Forms.ToolStripMenuItem 常规缺陷评定ToolStripMenuItem1;
+        private Windows.Forms.ToolStripMenuItem 简化评定ToolStripMenuItem;
+        private Windows.Forms.ToolStripMenuItem 常规评定ToolStripMenuItem;
     }
 }
 
