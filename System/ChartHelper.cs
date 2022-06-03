@@ -30,7 +30,12 @@ namespace System
             chart.Series[1].Color = Color.Red;
 
             chart.Series[1].BorderWidth = 5;
-
+            string fileName;
+            ChartImageFormat format;
+            format = ChartImageFormat.Emf;
+            IO.Directory.CreateDirectory(System.Windows.Forms.Application.StartupPath + "\\Pictrue");
+            fileName = System.Windows.Forms.Application.StartupPath + "\\Pictrue\\Firgure 1.emf";
+            chart.SaveImage(fileName, format);
         }
     }
 

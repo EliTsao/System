@@ -7,143 +7,102 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
+using System.Data.SQLite;
 
 namespace System
 {
     public partial class Material : Form
     {
-        private string SQL_ConnectStr = "server = 127.0.0.1; port = 3306; user = root ; password = root; database =rating_system";
-        public MySqlConnection MySqlConnection;
         public Material()
         {
-            InitializeComponent();  
-        }
-
-        private void Material_Load(object sender, EventArgs e)
-        {
-            Database_connection();
+            InitializeComponent();
             comboBox1.SelectedIndex = 0;
-            //Database_Matrial(MySqlConnection);
         }
-        // 数据库连接
-        public void Database_connection()
-        {
-            try
-            {
-                MySqlConnection = new MySqlConnection(SQL_ConnectStr);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.Message);
-            }
-            finally
-            {
-                Console.WriteLine("数据库连接成功");
-            }
-        }
-
-
         //获取钢号
-        public void Load_Comvobox2(MySqlConnection mySqlConnection)
+        public void Load_Combobox2()
         {
-            try
-            {
-                if (mySqlConnection != null)
-                    mySqlConnection.Open(); //打开通道
-                string sql_select = "SELECT DISTINCT Stell_Number FROM MATERIAL1_TB WHERE TYPE = '" + comboBox1.GetItemText(comboBox1.SelectedItem).Trim()+"'";
-                MySqlCommand mySqlCommand = new MySqlCommand(sql_select, mySqlConnection);
-                MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
-                DataSet dataSet = new DataSet();
-                mySqlDataAdapter.Fill(dataSet, "Stell_Number");
-                comboBox2.DataSource = dataSet.Tables[0];
-                comboBox2.DisplayMember = "Stell_Number";
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
+            string path = AppDomain.CurrentDomain.BaseDirectory + "rating_system.db";
+            string connectionString = "Data Source=" + path;
+            var ThisSQLiteConnection = new SQLiteConnection(connectionString);
+            ThisSQLiteConnection.Open();
+            string sql_select = "SELECT DISTINCT Stell_Number FROM MATERIAL1_TB WHERE TYPE = '" + comboBox1.GetItemText(comboBox1.SelectedItem).Trim() + "'";
+            SQLiteCommand SQLiteCommand = new SQLiteCommand(sql_select, ThisSQLiteConnection);
+            SQLiteCommand.ExecuteNonQuery();
+            SQLiteDataAdapter sQLiteDataAdapter = new SQLiteDataAdapter(SQLiteCommand);
+            DataSet dataSet = new DataSet();
+            sQLiteDataAdapter.Fill(dataSet);
+            comboBox2.DataSource = dataSet.Tables[0];
+            comboBox2.DisplayMember = "Stell_Number";
+            comboBox2.ValueMember = "Stell_Number";
+            comboBox2.SelectedIndex = 0;
 
         }
-
-        //获取温度状态
-        public void Load_Combobx3(MySqlConnection mySqlConnection)
+        //获取设计温度
+        public void Load_Combobox3()
         {
-            try
-            {
-                if (mySqlConnection != null)
-                    mySqlConnection.Open(); //打开通道
-                string sql_select = "SELECT * FROM MATERIAL1_TB WHERE Stell_Number ='" + comboBox2.GetItemText(comboBox2.SelectedItem).Trim() + "'" + 
+            string path = AppDomain.CurrentDomain.BaseDirectory + "rating_system.db";
+            string connectionString = "Data Source=" + path;
+            var ThisSQLiteConnection = new SQLiteConnection(connectionString);
+            ThisSQLiteConnection.Open();
+            Console.WriteLine(comboBox2.GetItemText(comboBox2.SelectedItem).Trim());
+            string sql_select = "SELECT * FROM MATERIAL1_TB WHERE Stell_Number ='" + comboBox2.GetItemText(comboBox2.SelectedItem).Trim() + "'" +
                 "AND Type = '" + comboBox1.GetItemText(comboBox1.SelectedItem).Trim() + "'";
-                MySqlCommand mySqlCommand = new MySqlCommand(sql_select, mySqlConnection);
-                //将查询结果绑定到dataview
-                MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
-                DataSet dataSet = new DataSet();
-                mySqlDataAdapter.Fill(dataSet, "Tempreture");
-                comboBox3.DataSource = dataSet.Tables[0];
-                comboBox3.DisplayMember = "Tempreture";
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
+            SQLiteCommand SQLiteCommand = new SQLiteCommand(sql_select, ThisSQLiteConnection);
+            SQLiteCommand.ExecuteNonQuery();
+            SQLiteDataAdapter sQLiteDataAdapter = new SQLiteDataAdapter(SQLiteCommand);
+            DataSet dataSet = new DataSet();
+            sQLiteDataAdapter.Fill(dataSet);
+            comboBox3.DataSource = dataSet.Tables[0];
+            comboBox3.DisplayMember = "Tempreture";
+            comboBox3.ValueMember = "Tempreture";
         }
-
-        // 进行查询
-
-        public void Database_select_Stress(MySqlConnection mySqlConnection)
+        //进行查询
+        public void Database_select_Stress()
         {
-            try
-            {
-                if (mySqlConnection != null)
-                    mySqlConnection.Open(); //打开通道
-                string sql_select = "SELECT * FROM MATERIAL1_TB WHERE Stell_Number= '" +
-                                       comboBox2.GetItemText(comboBox2.SelectedItem).Trim() + " '" +
+            string path = AppDomain.CurrentDomain.BaseDirectory + "rating_system.db";
+            string connectionString = "Data Source=" + path;
+            var ThisSQLiteConnection = new SQLiteConnection(connectionString);
+            ThisSQLiteConnection.Open();
+            string sql_select1 = "SELECT * FROM MATERIAL1_TB WHERE Stell_Number='" +
+                                       comboBox2.GetItemText(comboBox2.SelectedItem).Trim() + "'" +
                                      "AND Type = '" + comboBox1.GetItemText(comboBox1.SelectedItem).Trim() + "'" + "AND Tempreture = '"
                                      + comboBox3.GetItemText(comboBox3.SelectedItem).Trim() + "'";
-                Console.WriteLine(sql_select);
-                MySqlCommand mySqlCommand = new MySqlCommand(sql_select, mySqlConnection);
-                MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
-                DataSet dataSet = new DataSet();
-                mySqlDataAdapter.Fill(dataSet, "Stress"); 
-                MySqlDataReader reader = mySqlCommand.ExecuteReader();
-                reader.Read();
-                textBox1.Text = reader.GetString("Stell_Number");
-                textBox2.Text = reader.GetString("Thickness");
-                textBox3.Text = reader.GetString("Tempreture");
-                textBox4.Text = reader.GetString("Stress");
-            }
-            catch (Exception exception)
+            SQLiteCommand SQLiteCommand = new SQLiteCommand(sql_select1, ThisSQLiteConnection);
+            SQLiteCommand.ExecuteNonQuery();
+            SQLiteDataAdapter sQLiteDataAdapter = new SQLiteDataAdapter(SQLiteCommand);
+            DataSet dataSet = new DataSet();
+            sQLiteDataAdapter.Fill(dataSet);
+            SQLiteDataReader reader = SQLiteCommand.ExecuteReader();
+            
+            reader.Read();
+            if (reader.HasRows)
             {
-                Console.WriteLine(exception.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
+                textBox1.Text = reader["Stell_Number"].ToString();
+                textBox3.Text = reader["Thickness"].ToString();
+                textBox4.Text = reader["Tempreture"].ToString();
+                textBox2.Text = reader["Stress"].ToString();
             }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Load_Comvobox2(MySqlConnection);
+            Load_Combobox2();
+            comboBox2.SelectedIndex = 0;
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Load_Combobx3(MySqlConnection);
+            Load_Combobox3();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Database_select_Stress(MySqlConnection);
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Database_select_Stress();
         }
     }
 }

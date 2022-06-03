@@ -69,6 +69,9 @@ namespace System
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            helpProvider1.HelpNamespace = Application.StartupPath + @"\helpDoc\Help.chm";
+            Console.WriteLine(helpProvider1.HelpNamespace);
+            helpProvider1.SetShowHelp(this, true);
             //int w = System.Windows.Forms.SystemInformation.VirtualScreen.Width;
             //int h = System.Windows.Forms.SystemInformation.VirtualScreen.Height;
             //Console.WriteLine(w);
@@ -87,6 +90,11 @@ namespace System
             //置顶显示
 
             //this.TopMost = true;
+        }
+
+        private void 内容CToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(helpProvider1.HelpNamespace);
         }
     }
 }

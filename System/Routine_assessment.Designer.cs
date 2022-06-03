@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Material_category = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -112,6 +112,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.groupBox1.Controls.Add(this.Material_category);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.groupBox3);
@@ -394,6 +395,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.pictureBox1.Location = new System.Drawing.Point(7, 21);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(271, 202);
@@ -402,6 +404,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.groupBox2.Controls.Add(this.Safety_Box);
             this.groupBox2.Controls.Add(this.Lr_Box);
             this.groupBox2.Controls.Add(this.Kr_Box);
@@ -474,27 +477,29 @@
             // 
             // chart1
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(6, 219);
             this.chart1.Name = "chart1";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series4.Legend = "Legend1";
-            series4.Name = "曲线";
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series5.Legend = "Legend1";
-            series5.Name = "截止线";
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series6.Legend = "Legend1";
-            series6.Name = "标记点";
-            this.chart1.Series.Add(series4);
-            this.chart1.Series.Add(series5);
-            this.chart1.Series.Add(series6);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Legend = "Legend1";
+            series1.Name = "曲线";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Legend = "Legend1";
+            series2.Name = "截止线";
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series3.Legend = "Legend1";
+            series3.MarkerSize = 20;
+            series3.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Star5;
+            series3.Name = "标记点";
+            this.chart1.Series.Add(series1);
+            this.chart1.Series.Add(series2);
+            this.chart1.Series.Add(series3);
             this.chart1.Size = new System.Drawing.Size(476, 364);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
@@ -521,6 +526,7 @@
             // 
             // button3
             // 
+            this.button3.Enabled = false;
             this.button3.Location = new System.Drawing.Point(1060, 629);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(137, 40);
@@ -531,6 +537,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.BackColor = System.Drawing.SystemColors.Info;
             this.groupBox4.Controls.Add(this.comboBox5);
             this.groupBox4.Controls.Add(this.label16);
             this.groupBox4.Controls.Add(this.label15);
@@ -583,7 +590,7 @@
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(39, 20);
             this.label16.TabIndex = 12;
-            this.label16.Text = "Mpa";
+            this.label16.Text = "MPa";
             // 
             // label15
             // 
@@ -592,7 +599,7 @@
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(39, 20);
             this.label15.TabIndex = 11;
-            this.label15.Text = "Mpa";
+            this.label15.Text = "MPa";
             // 
             // label14
             // 
@@ -601,7 +608,7 @@
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(39, 20);
             this.label14.TabIndex = 10;
-            this.label14.Text = "Mpa";
+            this.label14.Text = "MPa";
             // 
             // label13
             // 
@@ -610,7 +617,7 @@
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(39, 20);
             this.label13.TabIndex = 9;
-            this.label13.Text = "Mpa";
+            this.label13.Text = "MPa";
             // 
             // Qm_box
             // 
@@ -704,6 +711,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.groupBox5.Controls.Add(this.label27);
             this.groupBox5.Controls.Add(this.label26);
             this.groupBox5.Controls.Add(this.label24);
@@ -735,7 +743,7 @@
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(77, 14);
             this.label27.TabIndex = 15;
-            this.label27.Text = "Mpa·mm^ 2";
+            this.label27.Text = "MPa·mm^ 2";
             // 
             // label26
             // 
@@ -752,7 +760,7 @@
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(39, 20);
             this.label24.TabIndex = 13;
-            this.label24.Text = "Mpa";
+            this.label24.Text = "MPa";
             // 
             // label23
             // 
@@ -761,7 +769,7 @@
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(39, 20);
             this.label23.TabIndex = 12;
-            this.label23.Text = "Mpa";
+            this.label23.Text = "MPa";
             // 
             // label22
             // 
@@ -770,7 +778,7 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(39, 20);
             this.label22.TabIndex = 11;
-            this.label22.Text = "Mpa";
+            this.label22.Text = "MPa";
             // 
             // Fracture_Box
             // 
@@ -937,10 +945,6 @@
         private Windows.Forms.Label label24;
         private Windows.Forms.Label label23;
         private Windows.Forms.Label label22;
-        private Windows.Forms.TextBox Fracture_Box;
-        private Windows.Forms.TextBox textBox11;
-        private Windows.Forms.TextBox textBox10;
-        private Windows.Forms.TextBox textBox9;
         private Windows.Forms.Label label21;
         private Windows.Forms.Label label20;
         private Windows.Forms.Label label19;
@@ -962,11 +966,15 @@
         public Windows.Forms.TextBox a_Textbox;
         public Windows.Forms.TextBox W_Textbox;
         public Windows.Forms.TextBox B_Textbox;
-        private Windows.Forms.ComboBox comboBox5;
         private Windows.Forms.Label label8;
         public Windows.Forms.TextBox Qm_box;
         public Windows.Forms.TextBox Pm_Box;
         public Windows.Forms.TextBox Pb_Box;
         public Windows.Forms.TextBox Qb_Box;
+        public Windows.Forms.TextBox Fracture_Box;
+        public Windows.Forms.TextBox textBox11;
+        public Windows.Forms.TextBox textBox10;
+        public Windows.Forms.TextBox textBox9;
+        public Windows.Forms.ComboBox comboBox5;
     }
 }

@@ -64,8 +64,8 @@ namespace System
                 if(h > 0.7 * B)
                 {
                     MessageBox.Show("该裂纹为穿透裂纹");
-                    Bitmap img1_1 = Properties.Resources.feature1_1;
-                    pictureBox1.Image = img1_1;
+                    //Bitmap img1_1 = Properties.Resources.feature1_1;
+                    //pictureBox1.Image = img1_1;
                     pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
                     Bitmap img1_2 = Properties.Resources.feature1_2;
                     pictureBox2.Image = img1_2;

@@ -33,16 +33,19 @@
             this.承压设备ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.基本参数数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.载入ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.生成报告书ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.常规缺陷评定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.常规缺陷评定ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.简化评定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.常规评定ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.表征类型ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.材料数据查询ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+            this.帮助HToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.内容CToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.关于AToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +56,7 @@
             this.常规缺陷评定ToolStripMenuItem,
             this.表征类型ToolStripMenuItem,
             this.材料数据查询ToolStripMenuItem,
-            this.帮助ToolStripMenuItem,
+            this.帮助HToolStripMenuItem,
             this.退出ToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -65,29 +68,22 @@
             // 
             this.承压设备ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.基本参数数据ToolStripMenuItem,
-            this.载入ToolStripMenuItem,
-            this.生成报告书ToolStripMenuItem1});
+            this.载入ToolStripMenuItem});
             this.承压设备ToolStripMenuItem.Name = "承压设备ToolStripMenuItem";
-            this.承压设备ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
-            this.承压设备ToolStripMenuItem.Text = "文件";
+            this.承压设备ToolStripMenuItem.Size = new System.Drawing.Size(58, 21);
+            this.承压设备ToolStripMenuItem.Text = "文件(F)";
             // 
             // 基本参数数据ToolStripMenuItem
             // 
             this.基本参数数据ToolStripMenuItem.Name = "基本参数数据ToolStripMenuItem";
-            this.基本参数数据ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.基本参数数据ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.基本参数数据ToolStripMenuItem.Text = "保存";
             // 
             // 载入ToolStripMenuItem
             // 
             this.载入ToolStripMenuItem.Name = "载入ToolStripMenuItem";
-            this.载入ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.载入ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.载入ToolStripMenuItem.Text = "载入";
-            // 
-            // 生成报告书ToolStripMenuItem1
-            // 
-            this.生成报告书ToolStripMenuItem1.Name = "生成报告书ToolStripMenuItem1";
-            this.生成报告书ToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
-            this.生成报告书ToolStripMenuItem1.Text = "生成报告书";
             // 
             // 常规缺陷评定ToolStripMenuItem
             // 
@@ -135,12 +131,6 @@
             this.材料数据查询ToolStripMenuItem.Text = "材料数据查询";
             this.材料数据查询ToolStripMenuItem.Click += new System.EventHandler(this.材料数据查询ToolStripMenuItem_Click);
             // 
-            // 帮助ToolStripMenuItem
-            // 
-            this.帮助ToolStripMenuItem.Name = "帮助ToolStripMenuItem";
-            this.帮助ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
-            this.帮助ToolStripMenuItem.Text = "帮助";
-            // 
             // 退出ToolStripMenuItem1
             // 
             this.退出ToolStripMenuItem1.Name = "退出ToolStripMenuItem1";
@@ -152,6 +142,34 @@
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // 帮助HToolStripMenuItem
+            // 
+            this.帮助HToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.内容CToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.关于AToolStripMenuItem});
+            this.帮助HToolStripMenuItem.Name = "帮助HToolStripMenuItem";
+            this.帮助HToolStripMenuItem.Size = new System.Drawing.Size(61, 21);
+            this.帮助HToolStripMenuItem.Text = "帮助(&H)";
+            // 
+            // 内容CToolStripMenuItem
+            // 
+            this.内容CToolStripMenuItem.Name = "内容CToolStripMenuItem";
+            this.内容CToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.内容CToolStripMenuItem.Text = "内容(&C)";
+            this.内容CToolStripMenuItem.Click += new System.EventHandler(this.内容CToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
+            // 
+            // 关于AToolStripMenuItem
+            // 
+            this.关于AToolStripMenuItem.Name = "关于AToolStripMenuItem";
+            this.关于AToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.关于AToolStripMenuItem.Text = "关于(&A)...";
             // 
             // Form1
             // 
@@ -175,7 +193,6 @@
 
         private Windows.Forms.MenuStrip menuStrip1;
         private Windows.Forms.ToolStripMenuItem 承压设备ToolStripMenuItem;
-        private Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
         private Windows.Forms.ToolStripMenuItem 基本参数数据ToolStripMenuItem;
         private Windows.Forms.ToolStripMenuItem 常规缺陷评定ToolStripMenuItem;
         private Windows.Forms.ContextMenuStrip contextMenuStrip1;
@@ -183,10 +200,14 @@
         private Windows.Forms.ToolStripMenuItem 表征类型ToolStripMenuItem;
         private Windows.Forms.ToolStripMenuItem 材料数据查询ToolStripMenuItem;
         private Windows.Forms.ToolStripMenuItem 载入ToolStripMenuItem;
-        private Windows.Forms.ToolStripMenuItem 生成报告书ToolStripMenuItem1;
         private Windows.Forms.ToolStripMenuItem 常规缺陷评定ToolStripMenuItem1;
         private Windows.Forms.ToolStripMenuItem 简化评定ToolStripMenuItem;
         private Windows.Forms.ToolStripMenuItem 常规评定ToolStripMenuItem;
+        private Windows.Forms.HelpProvider helpProvider1;
+        private Windows.Forms.ToolStripMenuItem 帮助HToolStripMenuItem;
+        private Windows.Forms.ToolStripMenuItem 内容CToolStripMenuItem;
+        private Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private Windows.Forms.ToolStripMenuItem 关于AToolStripMenuItem;
     }
 }
 

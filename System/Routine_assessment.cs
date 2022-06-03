@@ -7,17 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
+using System.Data.SQLite;
 
 namespace System
 {
     public partial class Routine_assessment : Form
     {
-        public static double lr, kr;
-        // 连接mysql的变量
-        private string SQL_ConnectStr = "server = 127.0.0.1; port = 3306; user = root ; password = root; database =rating_system";
-        public MySqlConnection MySqlConnection;
-        public static string Houguo;
+        public static double lr, kr, ξ, γ, Kip, Kis, p;
+        public static string Safety, Material_Name;
+        public static string formula, Characterization,formula1;
         //创建绘制评定图所需要的横坐标
         List<double> X_Seriers = new List<double>();
         //创建绘制评定图所需的纵坐标
@@ -27,26 +25,9 @@ namespace System
             InitializeComponent();
         }
 
-        //数据库连接函数
-        public void Database_connection()
-        {
-            try
-            {
-                MySqlConnection = new MySqlConnection(SQL_ConnectStr);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.Message);
-            }
-            finally
-            {
-                Console.WriteLine("数据库连接成功");
-            }
-        }
 
         private void Routine_assessment_Load(object sender, EventArgs e)
         {
-            Database_connection();
             comboBox5.SelectedIndex = 0;
             DBHelper dBHelper = new DBHelper();
             dBHelper.Database_connection();
@@ -91,36 +72,6 @@ namespace System
                 Lr_Ma.Lr_Max = 1.0;
             }
         }
-
-        //获取材料参数
-        public void Database_select_StellNumber(MySqlConnection mySqlConnection)
-        {
-            try
-            {
-                if (mySqlConnection != null)
-                    mySqlConnection.Open(); //打开通道
-                string sql_select = "SELECT * FROM MATERIAL_TB WHERE Steel_number= '" + comboBox5.GetItemText(comboBox5.SelectedItem).Trim() + " '";
-                MySqlCommand mySqlCommand = new MySqlCommand(sql_select, mySqlConnection);
-                MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
-                DataSet dataSet = new DataSet();
-                mySqlDataAdapter.Fill(dataSet, "Steel_number"); ;
-                MySqlDataReader reader = mySqlCommand.ExecuteReader();
-                reader.Read();
-                Limit_Box.Text = reader.GetString("Limit_s");
-                textBox9.Text = reader.GetString("Limit_b");
-                //Fracture_Box.Text = reader.GetString("K1_c");
-                //Poisson_Box.Text = reader.GetString("Labor_e");
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.Message);
-            }
-            finally
-            {
-                mySqlConnection.Close();
-            }
-        }
-
         // 缺陷类型及页面布局的加载
         public void component_type_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -398,13 +349,13 @@ namespace System
             }
         }
 
-        //安全系数的获取
-        private void Failure_SelectedIndexChanged(object sender, EventArgs e)
+        //分安全系数的获取
+        public void Failure_SelectedIndexChanged(object sender, EventArgs e)
         {
             {
+                //失效后果为安全
                 if (Failure.SelectedIndex == 0)
                 {
-                    Houguo = Failure.GetItemText(Failure.SelectedItem).Trim();
                     Safety_Factor.Charateristic = 1.0;
                     Safety_Factor.Fracture_toughness = 1.1;
                     Safety_Factor.Primary_stress = 1.1;
@@ -412,9 +363,9 @@ namespace System
                     //通过断裂韧度计算Kp
                     Kr.Kp = double.Parse(Fracture_Box.Text) / Safety_Factor.Fracture_toughness;
                 }
+                //失效后果为严重
                 else
                 {
-                    Houguo = Failure.GetItemText(Failure.SelectedItem).Trim();
                     Safety_Factor.Charateristic = 1.1;
                     Safety_Factor.Fracture_toughness = 1.2;
                     Safety_Factor.Primary_stress = 1.25;
@@ -440,33 +391,46 @@ namespace System
             if (component_type.SelectedIndex == 0)
             {
                 double W = double.Parse(W_Textbox.Text);
+                //c2.1.1 含长2a穿透裂纹的平板(板厚B，板宽2W)
                 if (Flaw_Type.SelectedIndex == 0)
                 {
                     lr = Lr.Lr_0_0(Pb, Pm, a, W, Limit_s);
-                    double Kip = Kr.FixKI_1(a, Pm, Pb);
-                    double Kis = Kr.FixKI_1(a, Qm, Qb);
+                    Kip = Kr.FixKI_1(a, Pm, Pb);
+                    Kis = Kr.FixKI_1(a, Qm, Qb);
                     double psil = Kr.Sx(a, Kis, Limit_s);
-                    double p = Kr.P(lr, psil);
+                    p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
+                    formula = "L_r=(P_b+√(P_b^2+9P_m^2 ))/(3(1-2a/W)σ_s )";
+                    formula1 = "L_r=(" +Pb_Box.Text+"√("+Pb_Box.Text+"^2+9"+Pm_Box.Text+"^2))/(3(1-"+a_Textbox.Text+"/"+W_Textbox.Text+")"+Limit_Box.Text+")="+lr.ToString("0.##");
+                    Characterization = "2a=l的穿透裂纹";
 
                 }
+                //含半椭圆表面裂纹的平板（裂纹a*2c，板厚B，板宽2W）
                 if (Flaw_Type.SelectedIndex == 1)
                 {
                     lr = Lr.Lr_0_1(Pb, Pm, a, Limit_s, c, B,W);
-                    double Kip = Kr.FixKI_2(a, c, B, Pm, Pb);
-                    double Kis = Kr.FixKI_2(a, c, B, Qm, Qb);
+                    Kip = Kr.FixKI_2(a, c, B, Pm, Pb);
+                    Kis = Kr.FixKI_2(a, c, B, Qm, Qb);
                     double psil =Kr.Sx(a, Kis, Limit_s);
-                    double p =Kr.P(lr, psil);
+                    p =Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
+                    formula = "L_r=(P_b+√(P_b^2+9(1-ξ)^2P_m^2))/3(1-ξ)^2 σ_s ";
+                    formula1 = "L_r=(" + Pb_Box.Text + "√" + Pb_Box.Text + "^2+9(1-)";
+                    Characterization = "c=l/2、a=h的半椭圆表面裂纹(没有共面裂纹)";
+                    ξ = a * c / B * (c + B);
                 }
+                //含椭圆形埋藏裂纹的平板（裂纹2a*2c,板厚B，板宽2W）
                 if (Flaw_Type.SelectedIndex == 2)
                 {
                     lr = Lr.Lr_0_2(Pb, Pm, a, Limit_s, c, B, p1);
-                    double Kip = Kr.FixKI_3(a, c, B, Pm, Pb);
-                    double Kis = Kr.FixKI_3(a, c, B, Qm, Qb);
+                    Kip = Kr.FixKI_3(a, c, B, Pm, Pb);
+                    Kis = Kr.FixKI_3(a, c, B, Qm, Qb);
                     double psil = Kr.Sx(a, Kis, Limit_s);
-                    double p = Kr.P(lr, psil);
+                    p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
+                    formula = "L_r=((3ξP_m+P_b )+√(〖(3ξP_m+P_b)〗^2+9[(1-ξ)^2+4ξγ]P_m^2 ))/(3[(1-ξ)^2+4ξγ]σ_s )";
+                    Characterization = "2c=l、2a=h的椭圆形埋藏裂纹";
+                    ξ = 2 * a * c / (B * (c + B));
                 }
             }
             if (component_type.SelectedIndex == 1)
@@ -476,86 +440,103 @@ namespace System
                 if (Flaw_Type.SelectedIndex == 0)
                 {
                     lr = Lr.Lr_1_2(Pm, a, B, Ri, Pb, Limit_s, c);
-                    double Kip = Kr.FixKI_6(a, B, c, Ri, Pm, Pb);
-                    double Kis = Kr.FixKI_6(a, B, c, Ri, Qm, Qb);
+                    Kip = Kr.FixKI_6(a, B, c, Ri, Pm, Pb);
+                    Kis = Kr.FixKI_6(a, B, c, Ri, Qm, Qb);
                     double psil = Kr.Sx(a, Kis, Limit_s);
-                    double p = Kr.P(lr, psil);
+                    p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
+                    formula = "L_r=(1.2M_s P_m+(2P_b)/(3(1-ξ)^2 ))/σ_s";
+                    Characterization = "c=l/2、a=h的半椭圆表面裂纹(没有共面裂纹)";
                 }
                 // 半椭圆轴向外表面轴向裂纹
                 if (Flaw_Type.SelectedIndex == 1)
                 {
                     lr = Lr.Lr_1_2(Pm, a, B, Ri, Pb, Limit_s, c);
-                    double Kip = Kr.FixKI_6(a, B, c, Ri, Pm, Pb);
-                    double Kis = Kr.FixKI_6(a, B, c, Ri, Qm, Qb);
+                    Kip = Kr.FixKI_6(a, B, c, Ri, Pm, Pb);
+                    Kis = Kr.FixKI_6(a, B, c, Ri, Qm, Qb);
                     double psil = Kr.Sx(a, Kis, Limit_s);
-                    double p = Kr.P(lr, psil);
+                    p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
+                    formula = "L_r=(1.2M_s P_m+(2P_b)/(3(1-ξ)^2 ))/σ_s";
+                    Characterization = "c=l/2、a=h的半椭圆表面裂纹(没有共面裂纹)";
+                    ξ = a / B;
+                    c = Math.PI * Ri;
                 }
                 // 半椭圆内表面环向裂纹
                 if (Flaw_Type.SelectedIndex == 2)
                 {
                     lr = Lr.Lr_1_1(Pm, a, B, Ri, Pb, Limit_s);
-                    double Kip = Kr.FixKI_7(a, B, c, Ri, Pm, Pb);
-                    double Kis = Kr.FixKI_7(a, B, c, Ri, Qm, Qb);
+                    Kip = Kr.FixKI_7(a, B, c, Ri, Pm, Pb);
+                    Kis = Kr.FixKI_7(a, B, c, Ri, Qm, Qb);
                     double psil = Kr.Sx(a, Kis, Limit_s);
-                    double p = Kr.P(lr, psil);
+                    p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
+                    formula = "L_r=(P_m [π(1-a/B)+2(a/B)sin⁡(c/R_i)])/(σ_s (1-a/B)[π-(c/R_i)(a/B)])+(2P_b)/(3σ_s (1-ξ)^2 )";
+                    Characterization = "c=l/2、a=h的半椭圆表面裂纹(没有共面裂纹)";
                 }
                 // 椭圆埋藏轴向裂纹
                 if (Flaw_Type.SelectedIndex == 3)
                 {
                     lr = Lr.Lr_0_2(Pb, Pm, a, Limit_s, c, B, p1);
-                    double Kip = Kr.FixKI_3(a, c, B, Pm, Pb);
-                    double Kis = Kr.FixKI_3(a, c, B, Qm, Qb);
+                    Kip = Kr.FixKI_3(a, c, B, Pm, Pb);
+                    Kis = Kr.FixKI_3(a, c, B, Qm, Qb);
                     double psil = Kr.Sx(a, Kis, Limit_s);
-                    double p = Kr.P(lr, psil);
+                    p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
+                    formula = "L_r=((3ξP_m+P_b )+√(〖(3ξP_m+P_b)〗^2+9[(1-ξ)^2+4ξγ]P_m^2 ))/(3[(1-ξ)^2+4ξγ]σ_s )";
+                    Characterization = "2c=l、2a=h的椭圆形埋藏裂纹";
                 }
                 // 椭圆埋藏环向裂纹
                 if (Flaw_Type.SelectedIndex == 4)
                 {
                     lr = Lr.Lr_0_2(Pb, Pm, a, Limit_s, c, B, p1);
-                    double Kip = Kr.FixKI_3(a, c, B, Pm, Pb);
-                    double Kis = Kr.FixKI_3(a, c, B, Qm, Qb);
+                    Kip = Kr.FixKI_3(a, c, B, Pm, Pb);
+                    Kis = Kr.FixKI_3(a, c, B, Qm, Qb);
                     double psil = Kr.Sx(a, Kis, Limit_s);
-                    double p = Kr.P(lr, psil);
+                    p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
+                    formula = "L_r=((3ξP_m+P_b )+√(〖(3ξP_m+P_b)〗^2+9[(1-ξ)^2+4ξγ]P_m^2 ))/(3[(1-ξ)^2+4ξγ]σ_s )";
+                    Characterization = "2c=l、2a=h的椭圆形埋藏裂纹";
                 }
                 // 长2a轴向穿透裂纹
                 if (Flaw_Type.SelectedIndex == 5)
                 {
                     lr = Lr.Lr_1_0(Pm, Limit_s, a, Ri, B);
                     Lr_Box.Text = lr.ToString("0.##");
-                    double Kip = Kr.FixKI_4(a, Ri, B, Pm, Pb);
-                    double Kis = Kr.FixKI_4(a, Ri, B, Qm, Qb);
+                    Kip = Kr.FixKI_4(a, Ri, B, Pm, Pb);
+                    Kis = Kr.FixKI_4(a, Ri, B, Qm, Qb);
                     double psil = Kr.Sx(a, Kis, Limit_s);
-                    double p = Kr.P(lr, psil);
+                    p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
+                    formula = "L_r=(1.2P_m)/σ_s  √(1+1.6a^2/(R_i B))";
+                    Characterization = "2a=l的穿透裂纹";
                 }
                 // 整圈内表面环向裂纹
                 if (Flaw_Type.SelectedIndex == 6)
                 {
                     lr = Lr.Lr_1_1(Pm,a,B,Ri,Pb,Limit_s);
-                    double Kip = Kr.FixKI_5(a, Ri, B, Pm, Pb);
-                    double Kis = Kr.FixKI_5(a, Ri, B, Qm, Qb);
+                    Kip = Kr.FixKI_5(a, Ri, B, Pm, Pb);
+                    Kis = Kr.FixKI_5(a, Ri, B, Qm, Qb);
                     double psil = Kr.Sx(a, Kis, Limit_s);
-                    double p = Kr.P(lr, psil);
+                    p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
-
+                    formula = "L_r=(P_m [π(1-a/B)+2(a/B)sin⁡(c/R_i)])/(σ_s (1-a/B)[π-(c/R_i)(a/B)])+(2P_b)/(3σ_s (1-ξ)^2 )";
                 }
             }
+            //内压球壳
             if(component_type.SelectedIndex == 2)
             {
                 double Ri = double.Parse(W_Textbox.Text);
                 double lr = Lr.Lr_2_0(Pb, Pm, a, B, Ri, Limit_s);
                 Lr_Box.Text = lr.ToString("0.##");
+                formula = "L_r=(P_m/σ_s )(1+√(1+8a^2/[R_i Bcos^2⁡(a/R_i)]))/2+2/(3(1-a/πR_i))(P_b/σ_s";
             }
             Kr_Box.Text = kr.ToString("0.##");
             Lr_Box.Text = lr.ToString("0.##");
             Safety_Box.Text = Kr.shixiao(lr, kr, Lr_Ma.Lr_Max);
+            Safety = Safety_Box.Text;
             ChartHelper.DrawPoint(lr, kr, chart1, Lr_Ma.Lr_Max);
-
+            button3.Enabled = true;
         }
 
 
@@ -588,7 +569,24 @@ namespace System
 
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Database_select_StellNumber(MySqlConnection);
+            string path = AppDomain.CurrentDomain.BaseDirectory + "rating_system.db";
+            string connectionString = "Data Source=" + path;
+            var ThisSQLiteConnection = new SQLiteConnection(connectionString);
+            ThisSQLiteConnection.Open();
+            string sql_select = "SELECT * FROM MATERIAL_TB WHERE Stell_Number= '" + comboBox5.GetItemText(comboBox5.SelectedItem).Trim() + "'";
+            SQLiteCommand SQLiteCommand = new SQLiteCommand(sql_select,ThisSQLiteConnection);
+            SQLiteCommand.ExecuteNonQuery();
+            SQLiteDataAdapter sQLiteDataAdapter = new SQLiteDataAdapter(SQLiteCommand);
+            DataSet dataSet = new DataSet();
+            sQLiteDataAdapter.Fill(dataSet);
+            SQLiteDataReader reader = SQLiteCommand.ExecuteReader();
+            reader.Read();
+            if (reader.HasRows)
+            {
+                Limit_Box.Text= reader["Limit_s"].ToString();
+                textBox9.Text = reader["limit_b"].ToString();
+            }
+            ThisSQLiteConnection.Close();
         }
     }
 }
