@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
 
 namespace System
 {
@@ -31,6 +30,11 @@ namespace System
         }
         public static double Calculate_Kr(double G,double KIP, double KIS, double Kp, double P)
         {
+            Console.WriteLine(G);
+            Console.WriteLine(KIP);
+            Console.WriteLine(KIS);
+            Console.WriteLine(Kp);
+            Console.WriteLine(P);
             return G * (KIP + KIS) / Kp + P;
         }
 
@@ -83,15 +87,19 @@ namespace System
             else return Ki_B;
         }
         //含椭圆埋藏裂纹的平板
-        public static double FixKI_3(double a,double B,double c,double Limit_M, double Limit_B)
+        public static double FixKI_3(double a,double B,double c,double Limit_M, double Limit_B,double p1)
         {
-            double temp = Math.Pow((1 - Math.Pow((2 * a / B / (1 - 2 * Math.Exp(1) / B)), 1.8) * (1 - 0.4 * a / c - 0.8 * Math.Pow((Math.Exp(1) / B), 2))), 0.54);
+            double ee = (B / 2) - p1 - 2;
+            double temp = Math.Pow((1 - Math.Pow((2 * a / B / (1 - 2 * ee / B)), 1.8) * (1 - 0.4 * a / c -  Math.Pow((ee / B), 2))), 0.54);
             double fmA = (1.01 - 0.37 * (a / c)) / temp;
-            double fbA = (1.01 - 0.37 * (a / c)) * (2 * Math.Exp(1) / B + a / B + 0.34 * Math.Pow(a, 2) / (c * B)) / temp;
-            double temp_2 = Math.Pow((1 - Math.Pow((2 * a / B / (1 - 2 * Math.Exp(1) / B)), 1.8) * (1 - 0.4 * a / c - 0.8 * Math.Pow((Math.Exp(1) / B), 0.4))), 0.54);
+            double fbA = (1.01 - 0.37 * (a / c)) * ((2 * ee / B) + (a / B) + 0.34 * Math.Pow(a, 2) / (c * B)) / temp;
+            double temp_2 = Math.Pow((1 - Math.Pow(((2 * a / B) / (1 - 2 * ee / B)), 1.8) * (1 - 0.4 * a / c - 0.8 * Math.Pow((ee / B), 0.4))), 0.54);
             double fmB = (1.01 - 0.37 * (a / c)) / temp_2;
-            double fbB = (1.01 - 0.37 * (a / c)) * (2 * Math.Exp(1) / B - a / B - 0.34 * Math.Pow(a, 2) / (c * B)) / temp_2;
+            double fbB = ((1.01 - 0.37 * (a / c)) * ((2 * ee / B) - (a / B) - 0.34 * Math.Pow(a, 2) / (c * B))) / temp_2;
             double Ki_A = Math.Sqrt(Math.PI * a) * (Limit_M * fmA + Limit_B * fbA);
+            Console.WriteLine(B);
+            Console.WriteLine(p1);
+            Console.WriteLine(ee);
             double Ki_B = Math.Sqrt(Math.PI * a) * (Limit_M * fmB + Limit_B * fbB);
             if (Ki_A >= Ki_B)
             {

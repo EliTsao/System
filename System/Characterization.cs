@@ -61,11 +61,13 @@ namespace System
             double p2 = double.Parse(textBox5.Text);
             if (comboBox1.SelectedIndex == 0)
             {
+                //表面缺陷的规则化和表征裂纹尺寸
+                //穿透裂纹缺陷表征
                 if(h > 0.7 * B)
                 {
                     MessageBox.Show("该裂纹为穿透裂纹");
-                    //Bitmap img1_1 = Properties.Resources.feature1_1;
-                    //pictureBox1.Image = img1_1;
+                    Bitmap img1_1 = Properties.Resources.feature1_1;
+                    pictureBox1.Image = img1_1;
                     pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
                     Bitmap img1_2 = Properties.Resources.feature1_2;
                     pictureBox2.Image = img1_2;
@@ -73,6 +75,7 @@ namespace System
                 }
                 else
                 {
+                    //半椭圆表面裂纹缺陷表征
                     if(h < l/2)
                     {
                         MessageBox.Show("该裂纹为半椭圆表面裂纹");
@@ -83,9 +86,11 @@ namespace System
                         pictureBox2.Image = img1_4;
                         pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
                     }
+
                     else
                     {
-                        MessageBox.Show("该裂纹为半椭圆表面裂纹");
+                        //半圆形裂纹缺陷表征
+                        MessageBox.Show("该裂纹为半圆形表面裂纹");
                         Bitmap img1_5 = Properties.Resources.feature1_5;
                         pictureBox1.Image = img1_5;
                         pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -124,6 +129,16 @@ namespace System
                     }
                 }
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            comboBox1.SelectedIndex = 0;
+            textBox1.Text = "2";
+            textBox3.Text = "1";
+            textBox2.Text = "3";
+            textBox4.Text = "4";
+            textBox5.Text = "5";
         }
     }
 }

@@ -14,8 +14,8 @@ namespace System
     public partial class Routine_assessment : Form
     {
         public static double lr, kr, ξ, γ, Kip, Kis, p;
-        public static string Safety, Material_Name;
-        public static string formula, Characterization,formula1;
+        public static string Safety, Material_Name, Failure_1;
+        public static string formula, Characterization,formula1,formul, formula2;
         //创建绘制评定图所需要的横坐标
         List<double> X_Seriers = new List<double>();
         //创建绘制评定图所需的纵坐标
@@ -29,8 +29,6 @@ namespace System
         private void Routine_assessment_Load(object sender, EventArgs e)
         {
             comboBox5.SelectedIndex = 0;
-            DBHelper dBHelper = new DBHelper();
-            dBHelper.Database_connection();
             Material_category.SelectedIndex = 0;
             component_type.SelectedIndex = 0;
             Failure.SelectedIndex = 0;
@@ -358,8 +356,9 @@ namespace System
                 {
                     Safety_Factor.Charateristic = 1.0;
                     Safety_Factor.Fracture_toughness = 1.1;
-                    Safety_Factor.Primary_stress = 1.1;
+                    Safety_Factor.Primary_stress = 1.2;
                     Safety_Factor.Secondary_stress = 1.0;
+                    Failure_1 = "安全"; 
                     //通过断裂韧度计算Kp
                     Kr.Kp = double.Parse(Fracture_Box.Text) / Safety_Factor.Fracture_toughness;
                 }
@@ -370,6 +369,7 @@ namespace System
                     Safety_Factor.Fracture_toughness = 1.2;
                     Safety_Factor.Primary_stress = 1.25;
                     Safety_Factor.Secondary_stress = 1.0;
+                    Failure_1 = "严重";
                     //通过断裂韧度计算Kp
                     Kr.Kp = double.Parse(Fracture_Box.Text) / Safety_Factor.Fracture_toughness;
                 }
@@ -379,14 +379,15 @@ namespace System
         //计算Kr与Lr
         private void Compute_button_Click(object sender, EventArgs e)
         {
+            Material_Name = comboBox5.GetItemText(comboBox5.SelectedItem).Trim();
             double B = double.Parse(B_Textbox.Text);
-            double a = double.Parse(a_Textbox.Text);
-            double c = double.Parse(c_Textbox.Text);
+            double a = double.Parse(a_Textbox.Text) * Safety_Factor.Charateristic;
+            double c = double.Parse(c_Textbox.Text) * Safety_Factor.Charateristic;
             double p1 = double.Parse(P1_Textbox.Text);
-            double Pm = double.Parse(Pm_Box.Text);
-            double Pb = double.Parse(Pb_Box.Text);
-            double Qm = double.Parse(Qm_box.Text);
-            double Qb = double.Parse(Qb_Box.Text);
+            double Pm = double.Parse(Pm_Box.Text) * Safety_Factor.Primary_stress;
+            double Pb = double.Parse(Pb_Box.Text) * Safety_Factor.Primary_stress;
+            double Qm = double.Parse(Qm_Box.Text) * Safety_Factor.Secondary_stress;
+            double Qb = double.Parse(Qb_box.Text) * Safety_Factor.Secondary_stress;
             double Limit_s = double.Parse(Limit_Box.Text);
             if (component_type.SelectedIndex == 0)
             {
@@ -402,6 +403,7 @@ namespace System
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
                     formula = "L_r=(P_b+√(P_b^2+9P_m^2 ))/(3(1-2a/W)σ_s )";
                     formula1 = "L_r=(" +Pb_Box.Text+"√("+Pb_Box.Text+"^2+9"+Pm_Box.Text+"^2))/(3(1-"+a_Textbox.Text+"/"+W_Textbox.Text+")"+Limit_Box.Text+")="+lr.ToString("0.##");
+                    formula2 = "K_I = √πa(σ_m  + σ_B )";
                     Characterization = "2a=l的穿透裂纹";
 
                 }
@@ -415,27 +417,30 @@ namespace System
                     p =Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
                     formula = "L_r=(P_b+√(P_b^2+9(1-ξ)^2P_m^2))/3(1-ξ)^2 σ_s ";
-                    formula1 = "L_r=(" + Pb_Box.Text + "√" + Pb_Box.Text + "^2+9(1-)";
+                    formula1 = "L_r=(" + Pb_Box.Text + "√" + Pb_Box.Text + "^2+9(1-"+a+c+"/"+B+"("+c+B+")+^2"+Pm+ "^2";
                     Characterization = "c=l/2、a=h的半椭圆表面裂纹(没有共面裂纹)";
+                    formula2 = "K_I = √πa(σ_m f_m + σ_B f_b)";
                     ξ = a * c / B * (c + B);
                 }
                 //含椭圆形埋藏裂纹的平板（裂纹2a*2c,板厚B，板宽2W）
                 if (Flaw_Type.SelectedIndex == 2)
                 {
                     lr = Lr.Lr_0_2(Pb, Pm, a, Limit_s, c, B, p1);
-                    Kip = Kr.FixKI_3(a, c, B, Pm, Pb);
-                    Kis = Kr.FixKI_3(a, c, B, Qm, Qb);
+                    Kip = Kr.FixKI_3(a, B, c, Pm, Pb,p1);
+                    Kis = Kr.FixKI_3(a, B, c, Qm, Qb,p1);
                     double psil = Kr.Sx(a, Kis, Limit_s);
                     p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
                     formula = "L_r=((3ξP_m+P_b )+√(〖(3ξP_m+P_b)〗^2+9[(1-ξ)^2+4ξγ]P_m^2 ))/(3[(1-ξ)^2+4ξγ]σ_s )";
                     Characterization = "2c=l、2a=h的椭圆形埋藏裂纹";
+                    formula2 = "K_I = √πa(σ_m f_m + σ_B f_b)";
                     ξ = 2 * a * c / (B * (c + B));
                 }
             }
             if (component_type.SelectedIndex == 1)
             {
-                double Ri = double.Parse(W_Textbox.Text);
+                formula2 = "K_I = √πa(σ_m f_m + σ_B f_b)";
+                double Ri = double.Parse(W_Textbox.Text)/2;
                 // 半椭圆轴向内表面轴向裂纹
                 if (Flaw_Type.SelectedIndex == 0)
                 {
@@ -466,8 +471,8 @@ namespace System
                 if (Flaw_Type.SelectedIndex == 2)
                 {
                     lr = Lr.Lr_1_1(Pm, a, B, Ri, Pb, Limit_s);
-                    Kip = Kr.FixKI_7(a, B, c, Ri, Pm, Pb);
-                    Kis = Kr.FixKI_7(a, B, c, Ri, Qm, Qb);
+                    Kip = Kr.FixKI_3(a, B, c, Pm, Pb,p1);
+                    Kis = Kr.FixKI_3(a, B, c, Qm, Qb,p1);
                     double psil = Kr.Sx(a, Kis, Limit_s);
                     p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
@@ -478,11 +483,12 @@ namespace System
                 if (Flaw_Type.SelectedIndex == 3)
                 {
                     lr = Lr.Lr_0_2(Pb, Pm, a, Limit_s, c, B, p1);
-                    Kip = Kr.FixKI_3(a, c, B, Pm, Pb);
-                    Kis = Kr.FixKI_3(a, c, B, Qm, Qb);
+                    Kip = Kr.FixKI_3(a, B, c, Pm, Pb, p1);
+                    Kis = Kr.FixKI_3(a, B, c, Qm, Qb, p1);
                     double psil = Kr.Sx(a, Kis, Limit_s);
                     p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
+                    Console.WriteLine(Kr.Kp);
                     formula = "L_r=((3ξP_m+P_b )+√(〖(3ξP_m+P_b)〗^2+9[(1-ξ)^2+4ξγ]P_m^2 ))/(3[(1-ξ)^2+4ξγ]σ_s )";
                     Characterization = "2c=l、2a=h的椭圆形埋藏裂纹";
                 }
@@ -490,8 +496,8 @@ namespace System
                 if (Flaw_Type.SelectedIndex == 4)
                 {
                     lr = Lr.Lr_0_2(Pb, Pm, a, Limit_s, c, B, p1);
-                    Kip = Kr.FixKI_3(a, c, B, Pm, Pb);
-                    Kis = Kr.FixKI_3(a, c, B, Qm, Qb);
+                    Kip = Kr.FixKI_3(a, B, c, Pm, Pb, p1);
+                    Kis = Kr.FixKI_3(a, B, c, Qm, Qb, p1);
                     double psil = Kr.Sx(a, Kis, Limit_s);
                     p = Kr.P(lr, psil);
                     kr = Kr.Calculate_Kr(1, Kip, Kis, Kr.Kp, p);
@@ -526,6 +532,7 @@ namespace System
             //内压球壳
             if(component_type.SelectedIndex == 2)
             {
+                formula2 = "K_I = √πa(σ_m f_m + σ_B f_b)";
                 double Ri = double.Parse(W_Textbox.Text);
                 double lr = Lr.Lr_2_0(Pb, Pm, a, B, Ri, Limit_s);
                 Lr_Box.Text = lr.ToString("0.##");
@@ -543,7 +550,6 @@ namespace System
         // 导出报告书
         private void button3_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(Safety_Box.Text);
             if (Safety_Box.Text != "")
             {
                 SaveFileDialog sfd = new SaveFileDialog();
@@ -556,7 +562,7 @@ namespace System
                     WordHelper.CreateWordFile(filePath);
                 }
             }
-            if(Safety_Box.Text == "")
+            if (Safety_Box.Text == "")
             {
                 MessageBox.Show("请先进行计算再完成生成报告书工作");
             }
@@ -564,7 +570,25 @@ namespace System
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(Safety_Box.Text);
+            Kr_Box.Text = null;
+            Lr_Box.Text = null;
+            Safety_Box.Text = null;
+            Material_category.SelectedIndex = 0;
+            component_type.SelectedIndex = 0;
+            Failure.SelectedIndex = 0;
+            Flaw_Type.SelectedIndex = 0;
+            comboBox5.SelectedIndex = 0;
+            textBox10.Text = "19700";
+            textBox11.Text = "0.3";
+            B_Textbox.Text = "130";
+            W_Textbox.Text = "4600";
+            a_Textbox.Text = "1.8";
+            c_Textbox.Text = "36";
+            P1_Textbox.Text = "16";
+            chart1.Series[2].Points.Clear();
+            chart1.Series[1].Points.Clear();
+            button3.Enabled = false;
+
         }
 
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)

@@ -76,10 +76,10 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.Qm_box = new System.Windows.Forms.TextBox();
-            this.Qb_Box = new System.Windows.Forms.TextBox();
-            this.Pm_Box = new System.Windows.Forms.TextBox();
+            this.Qb_box = new System.Windows.Forms.TextBox();
+            this.Qm_Box = new System.Windows.Forms.TextBox();
             this.Pb_Box = new System.Windows.Forms.TextBox();
+            this.Pm_Box = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -477,12 +477,17 @@
             // 
             // chart1
             // 
+            this.chart1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.Top;
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Alignment = System.Drawing.StringAlignment.Center;
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
             legend1.Name = "Legend1";
+            legend1.TitleAlignment = System.Drawing.StringAlignment.Far;
             this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(6, 219);
             this.chart1.Name = "chart1";
+            series1.BackImageAlignment = System.Windows.Forms.DataVisualization.Charting.ChartImageAlignmentStyle.TopRight;
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             series1.Legend = "Legend1";
@@ -543,10 +548,10 @@
             this.groupBox4.Controls.Add(this.label15);
             this.groupBox4.Controls.Add(this.label14);
             this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Controls.Add(this.Qm_box);
-            this.groupBox4.Controls.Add(this.Qb_Box);
-            this.groupBox4.Controls.Add(this.Pm_Box);
+            this.groupBox4.Controls.Add(this.Qb_box);
+            this.groupBox4.Controls.Add(this.Qm_Box);
             this.groupBox4.Controls.Add(this.Pb_Box);
+            this.groupBox4.Controls.Add(this.Pm_Box);
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.label11);
             this.groupBox4.Controls.Add(this.label10);
@@ -619,85 +624,85 @@
             this.label13.TabIndex = 9;
             this.label13.Text = "MPa";
             // 
-            // Qm_box
+            // Qb_box
             // 
-            this.Qm_box.Font = new System.Drawing.Font("宋体", 12F);
-            this.Qm_box.Location = new System.Drawing.Point(153, 209);
-            this.Qm_box.Name = "Qm_box";
-            this.Qm_box.Size = new System.Drawing.Size(100, 26);
-            this.Qm_box.TabIndex = 8;
-            this.Qm_box.Text = "210";
-            this.Qm_box.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Qb_box.Font = new System.Drawing.Font("宋体", 12F);
+            this.Qb_box.Location = new System.Drawing.Point(153, 209);
+            this.Qb_box.Name = "Qb_box";
+            this.Qb_box.Size = new System.Drawing.Size(100, 26);
+            this.Qb_box.TabIndex = 8;
+            this.Qb_box.Text = "210";
+            this.Qb_box.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // Qb_Box
+            // Qm_Box
             // 
-            this.Qb_Box.Font = new System.Drawing.Font("宋体", 12F);
-            this.Qb_Box.Location = new System.Drawing.Point(153, 168);
-            this.Qb_Box.Name = "Qb_Box";
-            this.Qb_Box.Size = new System.Drawing.Size(100, 26);
-            this.Qb_Box.TabIndex = 7;
-            this.Qb_Box.Text = "0";
-            this.Qb_Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Pm_Box
-            // 
-            this.Pm_Box.Font = new System.Drawing.Font("宋体", 12F);
-            this.Pm_Box.Location = new System.Drawing.Point(153, 127);
-            this.Pm_Box.Name = "Pm_Box";
-            this.Pm_Box.Size = new System.Drawing.Size(100, 26);
-            this.Pm_Box.TabIndex = 6;
-            this.Pm_Box.Text = "7.25";
-            this.Pm_Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Qm_Box.Font = new System.Drawing.Font("宋体", 12F);
+            this.Qm_Box.Location = new System.Drawing.Point(153, 168);
+            this.Qm_Box.Name = "Qm_Box";
+            this.Qm_Box.Size = new System.Drawing.Size(100, 26);
+            this.Qm_Box.TabIndex = 7;
+            this.Qm_Box.Text = "0";
+            this.Qm_Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Pb_Box
             // 
             this.Pb_Box.Font = new System.Drawing.Font("宋体", 12F);
-            this.Pb_Box.Location = new System.Drawing.Point(153, 86);
+            this.Pb_Box.Location = new System.Drawing.Point(153, 127);
             this.Pb_Box.Name = "Pb_Box";
             this.Pb_Box.Size = new System.Drawing.Size(100, 26);
-            this.Pb_Box.TabIndex = 5;
-            this.Pb_Box.Text = "125.65";
+            this.Pb_Box.TabIndex = 6;
+            this.Pb_Box.Text = "7.25";
             this.Pb_Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Pm_Box
+            // 
+            this.Pm_Box.Font = new System.Drawing.Font("宋体", 12F);
+            this.Pm_Box.Location = new System.Drawing.Point(153, 86);
+            this.Pm_Box.Name = "Pm_Box";
+            this.Pm_Box.Size = new System.Drawing.Size(100, 26);
+            this.Pm_Box.TabIndex = 5;
+            this.Pm_Box.Text = "125.65";
+            this.Pm_Box.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("宋体", 13F);
-            this.label12.Location = new System.Drawing.Point(10, 215);
+            this.label12.Location = new System.Drawing.Point(0, 211);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(143, 18);
+            this.label12.Size = new System.Drawing.Size(152, 18);
             this.label12.TabIndex = 4;
-            this.label12.Text = "二次弯曲应力/Qm";
+            this.label12.Text = "二次弯曲应力(Qb)";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("宋体", 13F);
-            this.label11.Location = new System.Drawing.Point(10, 174);
+            this.label11.Location = new System.Drawing.Point(1, 172);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(143, 18);
+            this.label11.Size = new System.Drawing.Size(152, 18);
             this.label11.TabIndex = 3;
-            this.label11.Text = "二次薄膜应力/Qb";
+            this.label11.Text = "二次薄膜应力(Qm)";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("宋体", 13F);
-            this.label10.Location = new System.Drawing.Point(10, 133);
+            this.label10.Location = new System.Drawing.Point(4, 131);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(125, 18);
+            this.label10.Size = new System.Drawing.Size(152, 18);
             this.label10.TabIndex = 2;
-            this.label10.Text = "一弯曲应力/Pm";
+            this.label10.Text = "一次弯曲应力(Pb)";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("宋体", 13F);
-            this.label9.Location = new System.Drawing.Point(10, 92);
+            this.label9.Location = new System.Drawing.Point(0, 94);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(143, 18);
+            this.label9.Size = new System.Drawing.Size(152, 18);
             this.label9.TabIndex = 1;
-            this.label9.Text = "一次薄膜应力/Pb";
+            this.label9.Text = "一次薄膜应力(Pm)";
             // 
             // label8
             // 
@@ -967,10 +972,10 @@
         public Windows.Forms.TextBox W_Textbox;
         public Windows.Forms.TextBox B_Textbox;
         private Windows.Forms.Label label8;
-        public Windows.Forms.TextBox Qm_box;
-        public Windows.Forms.TextBox Pm_Box;
+        public Windows.Forms.TextBox Qb_box;
         public Windows.Forms.TextBox Pb_Box;
-        public Windows.Forms.TextBox Qb_Box;
+        public Windows.Forms.TextBox Pm_Box;
+        public Windows.Forms.TextBox Qm_Box;
         public Windows.Forms.TextBox Fracture_Box;
         public Windows.Forms.TextBox textBox11;
         public Windows.Forms.TextBox textBox10;

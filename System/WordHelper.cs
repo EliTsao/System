@@ -109,7 +109,7 @@ namespace System
                 Para02_Title.Range.InsertParagraphAfter();
 
                 // 第二段内容
-                string Second_Body = "本缺陷失效后果为"+ Fm2.Failure.GetItemText(Fm2.Failure.SelectedItem).Trim() + "根据GB/T 19624-2019表5-1，可选取评定计算中的分安全系数：缺陷表征尺寸的分安全系数取"+Safety_Factor.Charateristic
+                string Second_Body = "本缺陷失效后果为"+ Routine_assessment.Failure_1 + "，根据GB/T 19624-2019表5-1，可选取评定计算中的分安全系数：缺陷表征尺寸的分安全系数取"+Safety_Factor.Charateristic
                                       + "，材料断裂韧度分安全系数取"+Safety_Factor.Fracture_toughness+ "，一次应力分安全系数取"+Safety_Factor.Primary_stress+ "，二次应力分安全系数取"+Safety_Factor.Secondary_stress+"。";
                 MSWord.Paragraph Para02_Body = wordDoc.Content.Paragraphs.Add(ref oMissing);
                 Para02_Body.Range.Text = string.Format(Second_Body);
@@ -134,7 +134,8 @@ namespace System
 
 
                 // 第三段内容
-                string Third_0_Body = "对实测表面缺陷进行表征化处理，规则化为"+Routine_assessment.Characterization;
+                string Third_0_Body = "对实测表面缺陷进行表征化处理，规则化为"+Routine_assessment.Characterization+ "尺寸为：a=" + Fm2.a_Textbox.Text + "mm,c=" + Fm2.c_Textbox.Text + "mm，引入GB/T19624-2019规范中表5-1缺陷表征尺寸分安全系数K=" + Safety_Factor.Charateristic + ",尺寸为：a=" +
+                                    double.Parse(Fm2.a_Textbox.Text) * Safety_Factor.Charateristic + "mm，c=" + double.Parse(Fm2.c_Textbox.Text) * Safety_Factor.Charateristic + "mm。"; 
                 MSWord.Paragraph Para03_Body = wordDoc.Content.Paragraphs.Add(ref oMissing);
                 Para03_Body.Range.Text = string.Format(Third_0_Body);
                 Para03_Body.Range.Select();
@@ -154,11 +155,11 @@ namespace System
                 Para03_Title.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;//居左显示
                 Para03_Title.Range.ParagraphFormat.LineSpacing = 20;//设置文档的行间距
                 Para03_Title.Range.InsertParagraphAfter();
-               
+
                 //第三段内容
-                string Third_Body = "一次薄膜应力"+ Fm2.Pb_Box.Text+"MPa"+ "一次弯曲应力" +Fm2.Pm_Box.Text+ "MPa"+"二次薄膜应力" +Fm2.Qb_Box.Text+"MPa"+"二次弯曲应力"+Fm2.Qm_box.Text+"Mpa"
-                                    +"尺寸为：a="+Fm2.a_Textbox.Text+"mm,c="+Fm2.c_Textbox.Text+ "mm，引入GB/T19624-2019规范中表5-1缺陷表征尺寸分安全系数K="+Safety_Factor.Charateristic+",尺寸为：a="+
-                                    double.Parse(Fm2.a_Textbox.Text)*Safety_Factor.Charateristic+"mm，c="+double.Parse(Fm2.c_Textbox.Text)*Safety_Factor.Charateristic+"mm";
+                string Third_Body = "一次薄膜应力Pm=" + Fm2.Pm_Box.Text + "MPa，" + "一次弯曲应力Pb=" + Fm2.Pb_Box.Text + "MPa，" + "二次薄膜应力Qm=" + Fm2.Qm_Box.Text + "MPa，" + "二次弯曲应力Qb=" + Fm2.Qb_box.Text + "Mpa。"
+                                   +"本缺陷后果为"+ Routine_assessment.Failure_1+"故一次应力分安全系数为"+Safety_Factor.Primary_stress+",经计算可得Pm="+double.Parse(Fm2.Pm_Box.Text)*Safety_Factor.Primary_stress+"，Pb="+double.Parse(Fm2.Pb_Box.Text)*Safety_Factor.Primary_stress
+                                   +"；二次分安全系数为"+Safety_Factor.Secondary_stress+",经计算可得Qm="+double.Parse(Fm2.Qm_Box.Text)*Safety_Factor.Secondary_stress+"，Qb="+double.Parse(Fm2.Qb_box.Text)*Safety_Factor.Secondary_stress;
                 Para03_Body.Range.Text = string.Format(Third_Body);
                 Para03_Body.Range.Select();
                 Para02_Body.Range.Font.Size = 12;
@@ -220,15 +221,15 @@ namespace System
                 table.Cell(1, 1).Range.Font.Bold = 1;//加粗
                 table.Cell(1, 1).Range.Font.Name = "黑体";//字体
                 table.Cell(1, 1).Range.Font.Size = 12; //字体大小
-                table.Cell(1, 2).Range.Text = "屈服极限 Mpa";
+                table.Cell(1, 2).Range.Text = "屈服极限 MPa";
                 table.Cell(1, 2).Range.Font.Bold = 1;//加粗
                 table.Cell(1, 2).Range.Font.Name = "黑体";//字体
                 table.Cell(1, 2).Range.Font.Size = 12; //字体大小
-                table.Cell(1, 3).Range.Text = "强度极限 Mpa";
+                table.Cell(1, 3).Range.Text = "强度极限 MPa";
                 table.Cell(1, 3).Range.Font.Bold = 1;//加粗
                 table.Cell(1, 3).Range.Font.Name = "黑体";//字体
                 table.Cell(1, 3).Range.Font.Size = 12; //字体大小
-                table.Cell(1, 4).Range.Text = "弹性模量 Mpa";
+                table.Cell(1, 4).Range.Text = "弹性模量 MPa";
                 table.Cell(1, 4).Range.Font.Bold = 1;//加粗
                 table.Cell(1, 4).Range.Font.Name = "黑体";//字体
                 table.Cell(1, 4).Range.Font.Size = 12; //字体大小
@@ -236,7 +237,7 @@ namespace System
                 table.Cell(1, 5).Range.Font.Bold = 1;//加粗
                 table.Cell(1, 5).Range.Font.Name = "黑体";//字体
                 table.Cell(1, 5).Range.Font.Size = 12; //字体大小
-                table.Cell(1, 6).Range.Text = "断裂韧度";
+                table.Cell(1, 6).Range.Text = "断裂韧度 MPa·mm^ 2";
                 table.Cell(1, 6).Range.Font.Bold = 1;//加粗
                 table.Cell(1, 6).Range.Font.Name = "黑体";//字体
                 table.Cell(1, 6).Range.Font.Size = 12; //字体大小
@@ -333,7 +334,7 @@ namespace System
 
                 //Ki计算公式
                 MSWord.Paragraph Ki_Body = wordDoc.Content.Paragraphs.Add(ref oMissing);
-                Ki_Body.Range.Text = "K_I = √πa(σ_m f_m+σ_B f_b) ";
+                Ki_Body.Range.Text = Routine_assessment.formula2;
                 math.Add(Ki_Body.Range);
                 math.BuildUp();
                 Para06_Body.Range.Select();

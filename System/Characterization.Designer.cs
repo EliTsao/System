@@ -93,7 +93,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(243, 572);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(117, 50);
+            this.button1.Size = new System.Drawing.Size(166, 50);
             this.button1.TabIndex = 3;
             this.button1.Text = "表征确定";
             this.button1.UseVisualStyleBackColor = true;
@@ -103,10 +103,11 @@
             // 
             this.button2.Location = new System.Drawing.Point(538, 572);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(117, 50);
+            this.button2.Size = new System.Drawing.Size(158, 50);
             this.button2.TabIndex = 4;
             this.button2.Text = "数据重置";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // textBox1
             // 
@@ -116,6 +117,7 @@
             this.textBox1.Size = new System.Drawing.Size(104, 30);
             this.textBox1.TabIndex = 5;
             this.textBox1.Text = "2";
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox2
             // 
@@ -125,6 +127,7 @@
             this.textBox2.Size = new System.Drawing.Size(104, 30);
             this.textBox2.TabIndex = 6;
             this.textBox2.Text = "3";
+            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox3
             // 
@@ -134,6 +137,7 @@
             this.textBox3.Size = new System.Drawing.Size(104, 30);
             this.textBox3.TabIndex = 7;
             this.textBox3.Text = "1";
+            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // groupBox1
             // 
@@ -189,6 +193,7 @@
             this.textBox5.Size = new System.Drawing.Size(104, 30);
             this.textBox5.TabIndex = 16;
             this.textBox5.Text = "5";
+            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox4
             // 
@@ -198,6 +203,7 @@
             this.textBox4.Size = new System.Drawing.Size(104, 30);
             this.textBox4.TabIndex = 15;
             this.textBox4.Text = "4";
+            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label11
             // 

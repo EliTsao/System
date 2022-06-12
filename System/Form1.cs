@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Spire.Doc;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Windows.Forms;
@@ -22,6 +21,9 @@ namespace System
 
         private void 常规缺陷评定ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Routine_assessment FM2 = GenericSingleton<Routine_assessment>.CreateInstrance();
+            FM2.MdiParent = this;
+            FM2.Show();
         }
 
         private void 退出ToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -30,41 +32,18 @@ namespace System
             this.Close();
         }
 
-        public static void vis()
-        {
-        }
-
-        private void 生成报告书ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void 材料数据查询ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form Fm3 = new Material();
-            Fm3.MdiParent = this;
-            Fm3.Show();
+            Material FM1 = GenericSingleton<Material>.CreateInstrance();
+            FM1.MdiParent = this;
+            FM1.Show();
         }
 
         private void 表征类型ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form Fm4 = new Characterization();
-            Fm4.MdiParent = this;
-            Fm4.Show();
-        }
-
-        private void 常规评定ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Form Fm2 = new Routine_assessment();
-            Fm2.MdiParent = this;
-            Fm2.Show();
-        }
-
-        private void 简化评定ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Form Fm5 = new Simplify_assessment();
-            Fm5.MdiParent = this;
-            Fm5.Show();
+            Characterization FM3 = GenericSingleton<Characterization>.CreateInstrance();
+            FM3.MdiParent = this;
+            FM3.Show();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -95,6 +74,23 @@ namespace System
         private void 内容CToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(helpProvider1.HelpNamespace);
+        }
+    }
+    public class GenericSingleton<T> where T : Form, new()
+    {
+        private static T t = null;
+        public static T CreateInstrance()
+        {
+            if (t == null || t.IsDisposed)
+            {
+                t = new T();
+            }
+            else
+            {
+                t.Activate(); //如果已经打开过就让其获得焦点  
+                t.WindowState = FormWindowState.Normal;//使Form恢复正常窗体大小
+            }
+            return t;
         }
     }
 }
